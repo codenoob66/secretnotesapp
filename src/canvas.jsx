@@ -12,8 +12,10 @@ const Canvas = () => {
   const API_KEY3 = "AIzaSyDGPL3To9IFuZJaRAczatVglGX6QbPemy0";
   const API_KEY4 = "AIzaSyASJoWw9F4Ye3p1uNJPIduu4NwuRi3M8WE";
   const API_KEY5 = "AIzaSyCJATAHesBkBBD42jTw7TrZdUebELnaLz4";
+  const API_KEY6 = "AIzaSyA50uw7M1JhmLnX0lp3r34iDrj7ZYOBpV8";
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
-  const keys = [API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5];
+
+  const keys = [API_KEY, API_KEY2, API_KEY3, API_KEY4, API_KEY5, API_KEY6];
 
   const onReady = (event) => setPlayer(event.target);
 
