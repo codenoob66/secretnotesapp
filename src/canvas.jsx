@@ -7,7 +7,7 @@ const Canvas = () => {
   const [text, setText] = useState(""); // disguises as "notes"
 
   const API_KEY = "AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8";
-  // AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8 AIzaSyD667DTs39IEYgy9HVVhkifif9EzPH7FQ8
+  const API_KEY2 = "AIzaSyD667DTs39IEYgy9HVVhkifif9EzPH7FQ8";
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
   const onReady = (event) => {
@@ -19,24 +19,28 @@ const Canvas = () => {
   };
 
   const handleSearch = async (query) => {
-    try {
-      const response = await fetch(
-        `${BASE_URL}?part=snippet&q=${encodeURIComponent(
-          query
-        )}&type=video&maxResults=1&key=${API_KEY}`
-      );
+    const keys = [API_KEY, API_KEY2];
+    for (let key of keys) {
+      console.log("Using API key:", key);
+      try {
+        const response = await fetch(
+          `${BASE_URL}?part=snippet&q=${encodeURIComponent(
+            query
+          )}&type=video&maxResults=1&key=${key}`
+        );
+        const data = await response.json();
 
-      const data = await response.json();
-      console.log(data.items[0].snippet.title);
-      if (data.items && data.items.length > 0) {
-        const firstVideoId = data.items[0].id.videoId;
-        setVideoId(firstVideoId);
-      } else {
-        console.log("No results found");
+        if (data.items && data.items.length > 0) {
+          setVideoId(data.items[0].id.videoId);
+          return;
+        } else if (data.error) {
+          console.warn(`API key failed: ${data.error.message}`);
+        }
+      } catch (err) {
+        console.error("Error fetching video:", err);
       }
-    } catch (error) {
-      console.error("Error fetching video:", error);
     }
+    console.log("No results found with available API keys");
   };
 
   return (
