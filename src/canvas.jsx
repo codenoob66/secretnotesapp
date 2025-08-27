@@ -57,6 +57,10 @@ const Canvas = () => {
         }}
         onReady={onReady}
       />
+      <h3>Pando</h3>
+      <h3>Cops Monitoring</h3>
+      <h3>SecureNet</h3>
+      <h3>Alula Dealer Portal</h3>
 
       {/* Fake "Notes" area (actually video search) */}
       <textarea
