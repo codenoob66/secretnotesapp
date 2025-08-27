@@ -6,7 +6,8 @@ const Canvas = () => {
   const [videoId, setVideoId] = useState("dQw4w9WgXcQ"); // default video
   const [text, setText] = useState(""); // disguises as "notes"
 
-  const API_KEY = "AIzaSyD667DTs39IEYgy9HVVhkifif9EzPH7FQ8";
+  const API_KEY = "AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8";
+  // AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8 AIzaSyD667DTs39IEYgy9HVVhkifif9EzPH7FQ8
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
   const onReady = (event) => {
