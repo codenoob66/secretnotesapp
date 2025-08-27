@@ -8,6 +8,8 @@ const Canvas = () => {
 
   const API_KEY = "AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8";
   const API_KEY2 = "AIzaSyD667DTs39IEYgy9HVVhkifif9EzPH7FQ8";
+  const API_KEY3 = "AIzaSyDGPL3To9IFuZJaRAczatVglGX6QbPemy0";
+  const API_KEY4 = "AIzaSyASJoWw9F4Ye3p1uNJPIduu4NwuRi3M8WE";
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
   const onReady = (event) => {
@@ -19,7 +21,7 @@ const Canvas = () => {
   };
 
   const handleSearch = async (query) => {
-    const keys = [API_KEY, API_KEY2];
+    const keys = [API_KEY, API_KEY2, API_KEY3, API_KEY4];
     for (let key of keys) {
       console.log("Using API key:", key);
       try {
