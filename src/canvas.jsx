@@ -3,7 +3,7 @@ import YouTube from "react-youtube";
 
 const Canvas = () => {
   const [player, setPlayer] = useState(null);
-  const [videoId, setVideoId] = useState("dQw4w9WgXcQ");
+  const [videoId, setVideoId] = useState("");
   const [text, setText] = useState("");
 
   const API_KEY = "AIzaSyDUNbDCna7vsa-xIqQTlWi8RecMwsmW1O8";
@@ -42,7 +42,7 @@ const Canvas = () => {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 bg-gray-50 min-h-screen">
+    <div className="flex flex-col items-center gap-4 bg-gray-900 min-h-screen">
       {/* Hidden YouTube Player */}
       <YouTube
         videoId={videoId}
@@ -66,7 +66,7 @@ const Canvas = () => {
 
       {/* Notes area */}
       <textarea
-        className="w-full max-w-sm border-2 border-gray-300 rounded-lg p-4 text-lg shadow focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
+        className="w-full text-white max-w-sm border-2 border-gray-300 rounded-lg p-4 text-lg shadow focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none"
         value={text}
         onChange={handleTextChange}
         placeholder="Write your notes here..."

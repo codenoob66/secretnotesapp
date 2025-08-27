@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Canvas from "./canvas";
 
 function App() {
