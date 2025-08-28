@@ -282,11 +282,11 @@ const Canvas = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-6">
-        {searchItems.map((item) => (
-          <div key={item.id.videoId}>
-            <h3 className="text-white font-xs">{item.snippet.title}</h3>
-          </div>
-        ))}
+        {/* {searchItems.map((item) => (
+          // <div key={item.id.videoId}>
+          //   <h3 className="text-white font-xs">{item.snippet.title}</h3>
+          // </div>
+        ))} */}
       </div>
     </div>
   );
