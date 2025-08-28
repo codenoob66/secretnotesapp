@@ -205,7 +205,7 @@ const Canvas = () => {
         const response = await fetch(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
             query
-          )}&type=video&maxResults=10&key=${key}`
+          )}&type=video&maxResults=5&key=${key}`
         );
         const data = await response.json();
         if (data.items && data.items.length > 0) {
@@ -279,13 +279,10 @@ const Canvas = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-6">
         {searchItems.map((item) => (
-          <div
-            key={item.id.videoId}
-            className="bg-gray-800 p-3 rounded-lg shadow hover:bg-gray-700 transition"
-          >
-            <h3 className="text-white font-medium">{item.snippet.title}</h3>
+          <div key={item.id.videoId}>
+            <h3 className="text-white font-xs">{item.snippet.title}</h3>
           </div>
         ))}
       </div>
