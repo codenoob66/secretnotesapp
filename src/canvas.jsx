@@ -286,11 +286,6 @@ const Canvas = () => {
             className="bg-gray-800 p-3 rounded-lg shadow hover:bg-gray-700 transition"
           >
             <h3 className="text-white font-medium">{item.snippet.title}</h3>
-            <img
-              src={item.snippet.thumbnails.default.url}
-              alt={item.snippet.title}
-              className="mt-2 rounded"
-            />
           </div>
         ))}
       </div>
