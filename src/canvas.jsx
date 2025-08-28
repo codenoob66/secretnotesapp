@@ -172,6 +172,7 @@ const Canvas = () => {
     let attempts = 0;
     while (attempts < keys.length) {
       const key = getNextKey();
+      console.log("using key", key);
       try {
         const response = await fetch(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
@@ -201,6 +202,7 @@ const Canvas = () => {
     let attempts = 0;
     while (attempts < keys.length) {
       const key = getNextKey();
+      console.log("using key", key);
       try {
         const response = await fetch(
           `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
