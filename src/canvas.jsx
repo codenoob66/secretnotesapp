@@ -1,5 +1,4 @@
-// export default Canvas;
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import YouTube from "react-youtube";
 
 const Canvas = () => {
@@ -7,27 +6,23 @@ const Canvas = () => {
   const [videoId, setVideoId] = useState("");
   const [text, setText] = useState("");
   const [maskedTitle, setMaskedTitle] = useState("");
-  // const [searchItems, setSearchItems] = useState([]);
 
   const API_KEY = "AIzaSyAn6Q2dzVO6B-cN5N4TlUga5YEQIr394yY";
   const API_KEY2 = "AIzaSyCJATAHesBkBBD42jTw7TrZdUebELnaLz4";
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
   const keys = [API_KEY, API_KEY2];
-
-  // useRef to keep track of the current key index across renders
   const keyIndexRef = useRef(0);
 
   const getNextKey = () => {
     const key = keys[keyIndexRef.current];
-    keyIndexRef.current = (keyIndexRef.current + 1) % keys.length; // cycle to next key
+    keyIndexRef.current = (keyIndexRef.current + 1) % keys.length;
     return key;
   };
 
   const onReady = (event) => setPlayer(event.target);
   const handleTextChange = (e) => setText(e.target.value);
 
-  // Fetch single video
   const handleSearch = async (query) => {
     let attempts = 0;
     while (attempts < keys.length) {
@@ -42,12 +37,10 @@ const Canvas = () => {
         const data = await response.json();
         if (data.items && data.items.length > 0) {
           setMaskedTitle(data.items[0].snippet.title);
-          console.log(data.items);
           setVideoId(data.items[0].id.videoId);
           return;
         }
         if (data.error && data.error.code === 403) {
-          // quota exceeded, try next key
           attempts++;
           continue;
         }
@@ -59,46 +52,18 @@ const Canvas = () => {
     console.log("No results found or all keys exhausted");
   };
 
-  const maskTitleOfSong = (title) => {
-    let result = title.replace(/\s+/g, "").slice(0, 10);
-    let charToAdd = "$";
-    let finalString = "";
-    for (let i = 0; i < result.length; i++) {
-      finalString += result[i] + charToAdd;
-    }
+  // decode & mask without updating state inside render
+  const maskedDisplay = useMemo(() => {
+    if (!maskedTitle) return "";
 
-    return finalString;
-  };
+    // decode HTML entities
+    const decoded = new DOMParser().parseFromString(maskedTitle, "text/html")
+      .body.textContent;
 
-  // Fetch multiple videos base on search
-
-  // const handleListVideos = async (query) => {
-  //   let attempts = 0;
-  //   while (attempts < keys.length) {
-  //     const key = getNextKey();
-  //     console.log("using key", key);
-  //     try {
-  //       const response = await fetch(
-  //         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-  //           query
-  //         )}&type=video&maxResults=5&key=${key}`
-  //       );
-  //       const data = await response.json();
-  //       if (data.items && data.items.length > 0) {
-  //         setSearchItems(data.items);
-  //         return;
-  //       }
-  //       if (data.error && data.error.code === 403) {
-  //         attempts++;
-  //         continue;
-  //       }
-  //     } catch (err) {
-  //       console.error("Error fetching videos:", err);
-  //       attempts++;
-  //     }
-  //   }
-  //   console.log("No results found or all keys exhausted");
-  // };
+    // clean and mask
+    const cleaned = decoded.replace(/&/g, "").replace(/\s+/g, "").slice(0, 10);
+    return cleaned.split("").join("$");
+  }, [maskedTitle]);
 
   return (
     <div className="flex flex-col items-center gap-6 bg-gray-900 min-h-screen p-6">
@@ -132,10 +97,7 @@ const Canvas = () => {
       <div className="flex flex-wrap gap-4 justify-center">
         <button
           className="px-6 py-2 rounded-lg bg-lime-500 text-white font-medium shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
-          onClick={() => {
-            handleSearch(text);
-            // handleListVideos(text);
-          }}
+          onClick={() => handleSearch(text)}
         >
           Search Notes
         </button>
@@ -156,12 +118,7 @@ const Canvas = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-6">
-        {/* {searchItems.map((item) => (
-          // <div key={item.id.videoId}>
-          //   <h3 className="text-white font-xs">{item.snippet.title}</h3>
-          // </div>
-        ))} */}
-        <h3 className="text-white">{maskTitleOfSong(maskedTitle)}</h3>
+        <h3 className="text-white">{maskedDisplay}</h3>
       </div>
     </div>
   );
