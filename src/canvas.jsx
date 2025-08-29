@@ -10,9 +10,10 @@ const Canvas = () => {
   // const [searchItems, setSearchItems] = useState([]);
 
   const API_KEY = "AIzaSyAn6Q2dzVO6B-cN5N4TlUga5YEQIr394yY";
+  const API_KEY2 = "AIzaSyCJATAHesBkBBD42jTw7TrZdUebELnaLz4";
   const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
-  const keys = [API_KEY];
+  const keys = [API_KEY, API_KEY2];
 
   // useRef to keep track of the current key index across renders
   const keyIndexRef = useRef(0);
