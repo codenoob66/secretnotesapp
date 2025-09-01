@@ -1,4 +1,6 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
+import { maskTitle } from "./utils/maskUtils.js";
+import { handleSearch } from "./utils/searchUtils.js";
 import YouTube from "react-youtube";
 
 const Canvas = () => {
@@ -14,6 +16,8 @@ const Canvas = () => {
   const keys = [API_KEY, API_KEY2];
   const keyIndexRef = useRef(0);
 
+  const maskedDisplay = maskTitle(maskedTitle);
+
   const getNextKey = () => {
     const key = keys[keyIndexRef.current];
     keyIndexRef.current = (keyIndexRef.current + 1) % keys.length;
@@ -22,48 +26,6 @@ const Canvas = () => {
 
   const onReady = (event) => setPlayer(event.target);
   const handleTextChange = (e) => setText(e.target.value);
-
-  const handleSearch = async (query) => {
-    let attempts = 0;
-    while (attempts < keys.length) {
-      const key = getNextKey();
-      console.log("using key", key);
-      try {
-        const response = await fetch(
-          `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(
-            query
-          )}&type=video&maxResults=1&key=${key}`
-        );
-        const data = await response.json();
-        if (data.items && data.items.length > 0) {
-          setMaskedTitle(data.items[0].snippet.title);
-          setVideoId(data.items[0].id.videoId);
-          return;
-        }
-        if (data.error && data.error.code === 403) {
-          attempts++;
-          continue;
-        }
-      } catch (err) {
-        console.error("Error fetching video:", err);
-        attempts++;
-      }
-    }
-    console.log("No results found or all keys exhausted");
-  };
-
-  // decode & mask without updating state inside render
-  const maskedDisplay = useMemo(() => {
-    if (!maskedTitle) return "";
-
-    // decode HTML entities
-    const decoded = new DOMParser().parseFromString(maskedTitle, "text/html")
-      .body.textContent;
-
-    // clean and mask
-    const cleaned = decoded.replace(/&/g, "").replace(/\s+/g, "").slice(0, 10);
-    return cleaned.split("").join("$");
-  }, [maskedTitle]);
 
   return (
     <div className="flex flex-col items-center gap-6 bg-gray-900 min-h-screen p-6">
@@ -97,7 +59,16 @@ const Canvas = () => {
       <div className="flex flex-wrap gap-4 justify-center">
         <button
           className="px-6 py-2 rounded-lg bg-lime-500 text-white font-medium shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
-          onClick={() => handleSearch(text)}
+          onClick={() =>
+            handleSearch(
+              text,
+              keys,
+              getNextKey,
+              BASE_URL,
+              setMaskedTitle,
+              setVideoId
+            )
+          }
         >
           Search Notes
         </button>
