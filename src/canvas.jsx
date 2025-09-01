@@ -16,8 +16,6 @@ const Canvas = () => {
   const keys = [API_KEY, API_KEY2];
   const keyIndexRef = useRef(0);
 
-  const maskedDisplay = maskTitle(maskedTitle);
-
   const getNextKey = () => {
     const key = keys[keyIndexRef.current];
     keyIndexRef.current = (keyIndexRef.current + 1) % keys.length;
@@ -89,7 +87,7 @@ const Canvas = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-6">
-        <h3 className="text-white">{maskedDisplay}</h3>
+        <h3 className="text-white">{maskTitle(maskedTitle)}</h3>
       </div>
     </div>
   );
