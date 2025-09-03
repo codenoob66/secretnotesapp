@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { maskTitle } from "./utils/maskUtils.js";
 import { handleSearch } from "./utils/searchUtils.js";
 import YouTube from "react-youtube";
+import RealNotePad from "./component/realnotepad.jsx";
 
 const Canvas = () => {
   const [player, setPlayer] = useState(null);
@@ -34,6 +35,7 @@ const Canvas = () => {
       />
 
       <div className="flex flex-wrap gap-3 justify-center">
+        <RealNotePad />
         {["Pando", "Cops Monitoring", "SecureNet", "Alula Dealer Portal"].map(
           (item) => (
             <span
