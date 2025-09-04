@@ -6,12 +6,12 @@ import { searchYoutube } from "./controller/searchController.js";
 dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 
 app.get("/search", searchYoutube);
 
 app.listen(PORT, () => {
-  console.log(`server started at port: ${PORT}`);
+  console.log(`Server started at port: ${PORT}`);
 });
