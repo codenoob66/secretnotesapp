@@ -1,8 +1,10 @@
+import Reminders from "./component/reminders";
 import Canvas from "./canvas";
 
 function App() {
   return (
     <>
+      <Reminders />
       <Canvas />
     </>
   );
