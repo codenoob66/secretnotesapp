@@ -4,13 +4,12 @@ const Reminders = () => {
   return (
     <Marquee
       gradient={false}
-      speed={50}
+      speed={45}
       style={{
         backgroundColor: "#1a1a1a", // dark background
         color: "#fff", // text color
         fontSize: "18px", // text size
         fontWeight: "bold",
-
         whiteSpace: "nowrap",
         letterSpacing: "1px",
       }}
