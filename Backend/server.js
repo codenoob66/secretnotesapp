@@ -10,6 +10,9 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("you're reached the backend");
+});
 app.get("/search", searchYoutube);
 
 app.listen(PORT, () => {

@@ -7,9 +7,8 @@ export const handleSearch = async (text, setVideoId) => {
 
     const data = await response.json();
 
-    // Pick the first video ID
     if (data.results && data.results.length > 0) {
-      setVideoId(data.results[0]); // 👈 or choose randomly
+      setVideoId(data.results[0]); // 👈 pick the first video ID
     } else {
       console.warn("No video IDs returned");
     }
