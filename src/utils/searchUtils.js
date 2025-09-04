@@ -1,35 +1,19 @@
-export async function handleSearch(
-  query,
-  keys,
-  getNextKey,
-  BASE_URL,
-  setMaskedTitle,
-  setVideoId
-) {
-  let attempts = 0;
-  while (attempts < keys.length) {
-    const key = getNextKey();
-    console.log("using key", key);
-    try {
-      const response = await fetch(
-        `${BASE_URL}?part=snippet&q=${encodeURIComponent(
-          query
-        )}&type=video&maxResults=1&key=${key}`
-      );
-      const data = await response.json();
-      if (data.items && data.items.length > 0) {
-        setMaskedTitle(data.items[0].snippet.title);
-        setVideoId(data.items[0].id.videoId);
-        return;
-      }
-      if (data.error && data.error.code === 403) {
-        attempts++;
-        continue;
-      }
-    } catch (err) {
-      console.error("Error fetching video:", err);
-      attempts++;
+export const handleSearch = async (text, setVideoId) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5000/search?q=${encodeURIComponent(text)}`
+    );
+    if (!response.ok) throw new Error("Failed to fetch from backend");
+
+    const data = await response.json();
+
+    // Pick the first video ID
+    if (data.results && data.results.length > 0) {
+      setVideoId(data.results[0]); // 👈 or choose randomly
+    } else {
+      console.warn("No video IDs returned");
     }
+  } catch (error) {
+    console.error("Error fetching video ID:", error);
   }
-  console.log("No results found or all keys exhausted");
-}
+};

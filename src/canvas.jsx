@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { maskTitle } from "./utils/maskUtils.js";
 import { handleSearch } from "./utils/searchUtils.js";
 import YouTube from "react-youtube";
@@ -9,19 +9,6 @@ const Canvas = () => {
   const [videoId, setVideoId] = useState("");
   const [text, setText] = useState("");
   const [maskedTitle, setMaskedTitle] = useState("");
-
-  const API_KEY = "AIzaSyAn6Q2dzVO6B-cN5N4TlUga5YEQIr394yY";
-  const API_KEY2 = "AIzaSyCJATAHesBkBBD42jTw7TrZdUebELnaLz4";
-  const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
-
-  const keys = [API_KEY, API_KEY2];
-  const keyIndexRef = useRef(0);
-
-  const getNextKey = () => {
-    const key = keys[keyIndexRef.current];
-    keyIndexRef.current = (keyIndexRef.current + 1) % keys.length;
-    return key;
-  };
 
   const onReady = (event) => setPlayer(event.target);
   const handleTextChange = (e) => setText(e.target.value);
@@ -59,16 +46,7 @@ const Canvas = () => {
       <div className="flex flex-wrap gap-4 justify-center">
         <button
           className="px-6 py-2 rounded-lg bg-lime-500 text-white font-medium shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
-          onClick={() =>
-            handleSearch(
-              text,
-              keys,
-              getNextKey,
-              BASE_URL,
-              setMaskedTitle,
-              setVideoId
-            )
-          }
+          onClick={() => handleSearch(text, setVideoId)}
         >
           Search Notes
         </button>
