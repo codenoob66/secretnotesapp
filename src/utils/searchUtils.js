@@ -6,7 +6,6 @@ export const handleSearch = async (text, setVideoId) => {
       `${API_URL}/search?q=${encodeURIComponent(text)}`
     );
     if (!response.ok) throw new Error("Failed to fetch from backend");
-
     const data = await response.json();
 
     if (data.results && data.results.length > 0) {
