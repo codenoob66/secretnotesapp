@@ -22,7 +22,7 @@ const Canvas = () => {
   const handleTextChange = (e) => setText(e.target.value);
 
   return (
-    <div className="flex flex-col items-center gap-6 bg-gray-900 min-h-screen p-6">
+    <div className="flex flex-col items-center gap-6 bg-[#00072D] min-h-screen p-6">
       <YouTube
         videoId={videoId}
         opts={{ height: "0", width: "0", playerVars: { autoplay: 1 } }}
@@ -43,21 +43,21 @@ const Canvas = () => {
 
       <div className="flex flex-wrap gap-4 justify-center">
         <button
-          className="px-6 py-2 rounded-lg bg-lime-500 text-white font-medium shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
+          className="px-6 py-2 rounded-lg bg-[#0A2472] text-white font-medium shadow hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
           onClick={() => handleSearch(text, setVideoId)}
         >
           Search Notes
         </button>
 
         <button
-          className="px-6 py-2 rounded-lg bg-red-500 text-white font-medium shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+          className="px-6 py-2 rounded-lg bg-[#0E6BA8] text-white font-medium shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
           onClick={() => player && player.pauseVideo()}
         >
           Submit Notes
         </button>
 
         <button
-          className="px-6 py-2 rounded-lg bg-orange-500 text-white font-medium shadow hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
+          className="px-6 py-2 rounded-lg bg-[#3423A6] text-white font-medium shadow hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
           onClick={() => player && player.playVideo()}
         >
           Get Notes
