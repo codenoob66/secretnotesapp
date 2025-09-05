@@ -1,14 +1,22 @@
 import { useState } from "react";
-import { maskTitle } from "./utils/maskUtils.js";
 import { handleSearch } from "./utils/searchUtils.js";
 import YouTube from "react-youtube";
 import RealNotePad from "./component/realnotepad.jsx";
+import ReusableDrawer from "./component/drawer.jsx";
 
 const Canvas = () => {
   const [player, setPlayer] = useState(null);
   const [videoId, setVideoId] = useState("");
   const [text, setText] = useState("");
-  const [maskedTitle, setMaskedTitle] = useState("");
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const primaryItems = [
+    "Pando",
+    "Cops Monitoring",
+    "SecureNet",
+    "Alula Dealer Portal",
+  ];
 
   const onReady = (event) => setPlayer(event.target);
   const handleTextChange = (e) => setText(e.target.value);
@@ -23,16 +31,6 @@ const Canvas = () => {
 
       <div className="flex flex-wrap gap-3 justify-center">
         <RealNotePad />
-        {["Pando", "Cops Monitoring", "SecureNet", "Alula Dealer Portal"].map(
-          (item) => (
-            <span
-              key={item}
-              className="px-4 py-2 rounded-full bg-blue-500 text-white font-semibold shadow hover:bg-blue-600 transition"
-            >
-              {item}
-            </span>
-          )
-        )}
       </div>
 
       <textarea
@@ -65,10 +63,18 @@ const Canvas = () => {
           Get Notes
         </button>
       </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-1 gap-4 mt-6">
-        <h3 className="text-white">{maskTitle(maskedTitle)}</h3>
-      </div>
+      <ReusableDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        primaryItems={primaryItems}
+        width={300}
+      />
+      <button
+        className="text-white px-6 py-2 rounded-lg bg-violet-500 font-medium shadow hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
+        onClick={() => setDrawerOpen(true)}
+      >
+        itot
+      </button>
     </div>
   );
 };
