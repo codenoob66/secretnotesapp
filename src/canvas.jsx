@@ -3,6 +3,10 @@ import { handleSearch } from "./utils/searchUtils.js";
 import YouTube from "react-youtube";
 import RealNotePad from "./component/realnotepad.jsx";
 import ReusableDrawer from "./component/drawer.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faPause } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 const Canvas = () => {
   const [player, setPlayer] = useState(null);
@@ -46,6 +50,7 @@ const Canvas = () => {
           className="px-6 py-2 rounded-lg bg-[#0A2472] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
           onClick={() => handleSearch(text, setVideoId)}
         >
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
           Search Notes
         </button>
 
@@ -53,6 +58,7 @@ const Canvas = () => {
           className="px-6 py-2 rounded-lg bg-[#0E6BA8] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-red-400 transition"
           onClick={() => player && player.pauseVideo()}
         >
+          <FontAwesomeIcon icon={faPause} />
           Submit Notes
         </button>
 
@@ -60,6 +66,7 @@ const Canvas = () => {
           className="px-6 py-2 rounded-lg bg-[#3423A6] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
           onClick={() => player && player.playVideo()}
         >
+          <FontAwesomeIcon icon={faPlay} />
           Get Notes
         </button>
       </div>
