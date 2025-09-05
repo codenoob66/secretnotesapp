@@ -1,7 +1,9 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const handleSearch = async (text, setVideoId) => {
   try {
     const response = await fetch(
-      `https://secretnotesapp.onrender.com/search?q=${encodeURIComponent(text)}`
+      `${API_URL}/search?q=${encodeURIComponent(text)}`
     );
     if (!response.ok) throw new Error("Failed to fetch from backend");
 
