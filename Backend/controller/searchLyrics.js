@@ -42,7 +42,7 @@ export const searchLyrics = async ({ q }) => {
     cleaned = cleaned.replace(/\[.*?\]/g, "").trim();
 
     // Return whatever we have (even empty string), exactly like original behavior
-    return cleaned;
+    return cleaned.json();
   } catch (error) {
     console.error("Error fetching lyrics:", error);
     return ""; // fallback to empty string on error, like original
