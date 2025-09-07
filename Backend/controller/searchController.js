@@ -9,7 +9,7 @@ export const searchYoutube = async (req, res) => {
   try {
     const results = await ytSearch(query);
     const videoIds = results.videos.slice(0, 5).map((v) => v.videoId);
-    res.json({ results: videoIds });
+    res.json(videoIds);
   } catch (err) {
     console.error("Error searching YouTube:", err);
     res.status(500).json({ error: "Failed to fetch videos" });

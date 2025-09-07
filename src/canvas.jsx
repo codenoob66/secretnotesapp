@@ -75,13 +75,14 @@ const Canvas = () => {
         onClose={() => setDrawerOpen(false)}
         primaryItems={primaryItems}
         width={300}
+        // text={text}
       />
-      {/* <button
+      <button
         className="text-white px-6 py-2 rounded-lg bg-violet-500 font-medium shadow hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
         onClick={() => setDrawerOpen(true)}
       >
-        itot
-      </button> */}
+        Open
+      </button>
     </div>
   );
 };
