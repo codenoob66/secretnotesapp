@@ -12,6 +12,7 @@ const Canvas = () => {
   const [player, setPlayer] = useState(null);
   const [videoId, setVideoId] = useState("");
   const [text, setText] = useState("");
+  const [lyrics, setLyrics] = useState("");
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -37,45 +38,49 @@ const Canvas = () => {
         <RealNotePad />
       </div>
 
-      <textarea
-        className="w-full max-w-xs text-white border-2 border-gray-600 rounded-lg p-4 text-lg shadow focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none bg-gray-800"
-        value={text}
-        onChange={handleTextChange}
-        placeholder="Write your notes here..."
-        rows={6}
-      />
-
       <div className="flex flex-wrap gap-4 justify-center">
-        <button
-          className="px-6 py-2 rounded-lg bg-[#0A2472] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
-          onClick={() => handleSearch(text, setVideoId)}
-        >
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-          Search Notes
-        </button>
+        <div className="flex flex-col justify-evenly">
+          <button
+            className="px-6 py-2 rounded-lg bg-[#0A2472] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-lime-400 transition"
+            onClick={() => handleSearch(text, setVideoId, setLyrics)}
+          >
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+            Search Notes
+          </button>
 
-        <button
-          className="px-6 py-2 rounded-lg bg-[#0E6BA8] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-red-400 transition"
-          onClick={() => player && player.pauseVideo()}
-        >
-          <FontAwesomeIcon icon={faPause} />
-          Submit Notes
-        </button>
+          <button
+            className="px-6 py-2 rounded-lg bg-[#0E6BA8] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+            onClick={() => player && player.pauseVideo()}
+          >
+            <FontAwesomeIcon icon={faPause} />
+            Submit Notes
+          </button>
 
-        <button
-          className="px-6 py-2 rounded-lg bg-[#3423A6] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
-          onClick={() => player && player.playVideo()}
-        >
-          <FontAwesomeIcon icon={faPlay} />
-          Get Notes
-        </button>
+          <button
+            className="px-6 py-2 rounded-lg bg-[#3423A6] text-white font-medium shadow  focus:outline-none focus:ring-2 focus:ring-orange-400 transition"
+            onClick={() => player && player.playVideo()}
+          >
+            <FontAwesomeIcon icon={faPlay} />
+            Get Notes
+          </button>
+        </div>
+        <div>
+          <textarea
+            className="w-full max-w-xs text-white border-2 border-gray-600 rounded-lg p-4 text-lg shadow focus:ring-2 focus:ring-blue-400 focus:outline-none resize-none bg-gray-800"
+            value={text}
+            onChange={handleTextChange}
+            placeholder="Write your notes here..."
+            rows={6}
+          />
+        </div>
       </div>
+
       <ReusableDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         primaryItems={primaryItems}
         width={300}
-        // text={text}
+        lyrics={lyrics}
       />
       <button
         className="text-white px-6 py-2 rounded-lg bg-violet-500 font-medium shadow hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
