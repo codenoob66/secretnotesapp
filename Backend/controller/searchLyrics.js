@@ -34,17 +34,11 @@ export const searchLyrics = async ({ q }) => {
     $('[data-lyrics-container="true"]').each((i, el) => {
       lyrics += $(el).text() + "\n";
     });
-
-    // 3. Clean lyrics safely
-    let str = lyrics.includes("[Verse 1]")
-      ? lyrics.substring(lyrics.indexOf("[Verse 1]"))
-      : lyrics;
-
-    const mark = "[Music Video]";
-    let cleaned = str.includes(mark)
+    let str = lyrics.substring(lyrics.indexOf("[Verse 1]"));
+    let mark = "[Music Video]";
+    let cleaned = lyrics.includes(mark)
       ? str.substring(0, str.indexOf(mark)).trim()
       : str;
-
     cleaned = cleaned.replace(/\[.*?\]/g, "").trim();
 
     // Return whatever we have (even empty string), exactly like original behavior
