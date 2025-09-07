@@ -1,10 +1,11 @@
+// controller/searchLyrics.js
 import dotenv from "dotenv";
 import * as cheerio from "cheerio";
 dotenv.config();
 
-export const searchLyrics = async (req, res) => {
-  const { q } = req.query;
-  if (!q) return res.status(400).json({ error: "Missing ?q=" });
+// Pure function: returns lyrics
+export const searchLyrics = async ({ q }) => {
+  if (!q) throw new Error("Missing query parameter 'q'");
 
   try {
     // 1. Search Genius
@@ -19,7 +20,7 @@ export const searchLyrics = async (req, res) => {
     const searchData = await searchResponse.json();
 
     if (!searchData.response.hits.length) {
-      return res.status(404).json({ error: "No songs found" });
+      throw new Error("No songs found");
     }
 
     const songUrl = searchData.response.hits[0].result.url;
@@ -42,9 +43,19 @@ export const searchLyrics = async (req, res) => {
 
     cleaned = cleaned.replace(/\[.*?\]/g, "").trim();
 
-    res.json(cleaned);
+    return cleaned; // return instead of res.json
   } catch (error) {
     console.error("Error fetching lyrics:", error);
-    res.status(500).json({ error: "Failed to fetch lyrics" });
+    throw new Error("Failed to fetch lyrics");
+  }
+};
+
+// Express wrapper for direct endpoint
+export const searchLyricsHandler = async (req, res) => {
+  try {
+    const lyrics = await searchLyrics({ q: req.query.q });
+    res.json(lyrics);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

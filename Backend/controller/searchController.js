@@ -1,17 +1,26 @@
 // controller/searchController.js
 import ytSearch from "yt-search";
 
-export const searchYoutube = async (req, res) => {
-  const query = req.query.q;
-  if (!query)
-    return res.status(400).json({ error: "Missing query parameter ?q=" });
+// Refactored: function returns data instead of sending res.json
+export const searchYoutube = async ({ q }) => {
+  if (!q) throw new Error("Missing query parameter 'q'");
 
   try {
-    const results = await ytSearch(query);
+    const results = await ytSearch(q);
     const videoIds = results.videos.slice(0, 5).map((v) => v.videoId);
-    res.json(videoIds);
+    return videoIds; // return the array instead of sending res.json
   } catch (err) {
     console.error("Error searching YouTube:", err);
-    res.status(500).json({ error: "Failed to fetch videos" });
+    throw new Error("Failed to fetch videos");
+  }
+};
+
+// Optional: keep an Express handler for direct endpoint usage
+export const searchYoutubeHandler = async (req, res) => {
+  try {
+    const videoIds = await searchYoutube({ q: req.query.q });
+    res.json(videoIds);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

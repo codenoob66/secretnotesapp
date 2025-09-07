@@ -1,22 +1,20 @@
+// controller/getSongandLyrics.js
+import { searchYoutube } from "./searchController.js";
+import { searchLyrics } from "./searchLyrics.js";
+
 export const both = async (req, res) => {
   const query = req.query.q;
   if (!query)
     return res.status(400).json({ error: "Missing query parameter ?q=" });
 
   try {
-    const searchRes = await fetch(
-      `http://localhost:5000/search?q=${encodeURIComponent(query)}`
-    );
-    const lyricsRes = await fetch(
-      `http://localhost:5000/song/lyrics?q=${encodeURIComponent(query)}`
-    );
-
-    const searchResult = await searchRes.json();
-    const lyricsResult = await lyricsRes.json();
+    // Call the refactored functions directly
+    const searchResult = await searchYoutube({ q: query });
+    const lyricsResult = await searchLyrics({ q: query });
 
     res.json({ searchResult, lyricsResult });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Something went wrong" });
+    console.error("Error in both endpoint:", error);
+    res.status(500).json({ error: error.message || "Something went wrong" });
   }
 };
