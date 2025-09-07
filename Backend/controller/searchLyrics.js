@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import * as cheerio from "cheerio";
 dotenv.config();
 
-// Pure function: returns lyrics safely
+// Pure function: returns lyrics
 export const searchLyrics = async ({ q }) => {
   if (!q) throw new Error("Missing query parameter 'q'");
 
@@ -20,7 +20,7 @@ export const searchLyrics = async ({ q }) => {
     const searchData = await searchResponse.json();
 
     if (!searchData.response.hits.length) {
-      throw new Error("No songs found");
+      return ""; // No songs found, return empty string like your original code
     }
 
     const songUrl = searchData.response.hits[0].result.url;
@@ -35,28 +35,23 @@ export const searchLyrics = async ({ q }) => {
       lyrics += $(el).text() + "\n";
     });
 
-    if (!lyrics) {
-      throw new Error("Could not extract lyrics from page");
-    }
-
-    // 3. Clean up lyrics safely
+    // 3. Clean lyrics safely
     let str = lyrics.includes("[Verse 1]")
       ? lyrics.substring(lyrics.indexOf("[Verse 1]"))
-      : lyrics; // fallback if [Verse 1] not found
+      : lyrics;
 
     const mark = "[Music Video]";
     let cleaned = str.includes(mark)
       ? str.substring(0, str.indexOf(mark)).trim()
       : str;
 
-    // Remove any remaining tags like [Chorus], [Verse 2], etc.
     cleaned = cleaned.replace(/\[.*?\]/g, "").trim();
 
-    // Fallback: if still empty, return raw lyrics
-    return cleaned || lyrics.trim();
+    // Return whatever we have (even empty string), exactly like original behavior
+    return cleaned;
   } catch (error) {
     console.error("Error fetching lyrics:", error);
-    throw new Error(error.message || "Failed to fetch lyrics");
+    return ""; // fallback to empty string on error, like original
   }
 };
 
