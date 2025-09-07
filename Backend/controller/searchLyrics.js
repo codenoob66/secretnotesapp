@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import * as cheerio from "cheerio";
 dotenv.config();
 
-// Pure function: returns lyrics
+// Pure function: returns lyrics safely
 export const searchLyrics = async ({ q }) => {
   if (!q) throw new Error("Missing query parameter 'q'");
 
@@ -35,22 +35,32 @@ export const searchLyrics = async ({ q }) => {
       lyrics += $(el).text() + "\n";
     });
 
-    let str = lyrics.substring(lyrics.indexOf("[Verse 1]"));
-    let mark = "[Music Video]";
-    let cleaned = lyrics.includes(mark)
+    if (!lyrics) {
+      throw new Error("Could not extract lyrics from page");
+    }
+
+    // 3. Clean up lyrics safely
+    let str = lyrics.includes("[Verse 1]")
+      ? lyrics.substring(lyrics.indexOf("[Verse 1]"))
+      : lyrics; // fallback if [Verse 1] not found
+
+    const mark = "[Music Video]";
+    let cleaned = str.includes(mark)
       ? str.substring(0, str.indexOf(mark)).trim()
       : str;
 
+    // Remove any remaining tags like [Chorus], [Verse 2], etc.
     cleaned = cleaned.replace(/\[.*?\]/g, "").trim();
 
-    return cleaned; // return instead of res.json
+    // Fallback: if still empty, return raw lyrics
+    return cleaned || lyrics.trim();
   } catch (error) {
     console.error("Error fetching lyrics:", error);
-    throw new Error("Failed to fetch lyrics");
+    throw new Error(error.message || "Failed to fetch lyrics");
   }
 };
 
-// Express wrapper for direct endpoint
+// Express wrapper for endpoint
 export const searchLyricsHandler = async (req, res) => {
   try {
     const lyrics = await searchLyrics({ q: req.query.q });
