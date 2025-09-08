@@ -17,6 +17,14 @@ export const searchLyrics = async ({ q }) => {
         },
       }
     );
+    if (!searchResponse.ok) {
+      console.error(
+        "Genius API search failed:",
+        searchResponse.status,
+        await searchResponse.text()
+      );
+      throw new Error("Genius API search failed");
+    }
     const searchData = await searchResponse.json();
 
     if (!searchData.response.hits.length) {
@@ -26,7 +34,20 @@ export const searchLyrics = async ({ q }) => {
     const songUrl = searchData.response.hits[0].result.url;
 
     // 2. Scrape Genius lyrics
-    const pageResponse = await fetch(songUrl);
+    const pageResponse = await fetch(songUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/119.0.0.0 Safari/537.36",
+      },
+    });
+    if (!pageResponse.ok) {
+      console.error(
+        "Genius lyrics page fetch failed:",
+        pageResponse.status,
+        await pageResponse.text()
+      );
+      throw new Error("Genius lyrics page fetch failed");
+    }
     const html = await pageResponse.text();
     const $ = cheerio.load(html);
 
