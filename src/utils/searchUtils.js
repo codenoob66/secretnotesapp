@@ -7,7 +7,6 @@ export const handleSearch = async (text, setVideoId, setLyrics) => {
     );
     if (!response.ok) throw new Error("Failed to fetch from backend");
     const data = await response.json(); // data is already an array
-    console.log(data);
     if (data && data.searchResult.length > 0) {
       setVideoId(data.searchResult[0]); // pick the first video ID
       setLyrics(data.lyricsResult);

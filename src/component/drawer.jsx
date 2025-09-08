@@ -13,11 +13,11 @@ export default function TemporaryDrawer({
   open,
   onClose,
   primaryItems = [],
-  width = 250,
+  width = 300,
   lyrics,
 }) {
   const DrawerList = (items) => (
-    <Box sx={{ width: 250 }} role="presentation">
+    <Box sx={{ width: 300 }} role="presentation">
       <List>
         {items.map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -39,7 +39,7 @@ export default function TemporaryDrawer({
           </ListItem>
         ))}
       </List>
-      <h1 style={{ color: "white" }}>{lyrics}</h1>
+      <p className="text-white text-center p-4">{lyrics}</p>
     </Box>
   );
 
