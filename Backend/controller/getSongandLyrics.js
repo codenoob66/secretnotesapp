@@ -11,8 +11,9 @@ export const both = async (req, res) => {
     // Call the refactored functions directly
     const searchResult = await searchYoutube({ q: query });
     const lyricsResult = await searchLyrics({ q: query });
-
-    res.json({ searchResult, lyricsResult });
+    console.log(searchResult);
+    console.log(lyricsResult);
+    res.send({ searchResult, lyricsResult });
   } catch (error) {
     console.error("Error in both endpoint:", error);
     res.status(500).json({ error: error.message || "Something went wrong" });
