@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { handleSearch } from "./utils/searchUtils.js";
-import YouTube from "react-youtube";
 import RealNotePad from "./component/realnotepad.jsx";
 import ReusableDrawer from "./component/drawer.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,11 +27,11 @@ const Canvas = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 bg-[#00072D] min-h-screen p-6">
-      <YouTube
+      {/* <YouTube
         videoId={videoId}
         opts={{ height: "0", width: "0", playerVars: { autoplay: 1 } }}
         onReady={onReady}
-      />
+      /> */}
 
       <div className="flex flex-wrap gap-3 justify-center">
         <RealNotePad />
@@ -77,16 +76,28 @@ const Canvas = () => {
 
       <ReusableDrawer
         open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        onClose={() => {
+          player?.pauseVideo(); // pause the video
+          setDrawerOpen(false); // close the drawer
+        }}
         primaryItems={primaryItems}
         width={300}
         lyrics={lyrics}
+        videoId={videoId}
+        onReady={onReady}
       />
+
       <button
         className="text-white px-6 py-2 rounded-lg bg-violet-500 font-medium shadow hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-400 transition"
-        onClick={() => setDrawerOpen(true)}
+        onClick={() => {
+          if (!drawerOpen) {
+            // drawer is currently closed → we want to open it and play video
+            setDrawerOpen(true);
+            player?.playVideo();
+          }
+        }}
       >
-        Open
+        {drawerOpen ? "Close" : "Open"}
       </button>
     </div>
   );

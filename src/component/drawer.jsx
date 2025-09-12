@@ -8,13 +8,15 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import YoutubePlayer from "./youtubePlayer";
 
 export default function TemporaryDrawer({
   open,
   onClose,
   primaryItems = [],
   width = 300,
-  lyrics,
+  videoId,
+  onReady,
 }) {
   const DrawerList = (items) => (
     <Box sx={{ width: 300 }} role="presentation">
@@ -39,7 +41,14 @@ export default function TemporaryDrawer({
           </ListItem>
         ))}
       </List>
-      <p className="text-white text-center p-4">{lyrics}</p>
+      {/* <p className="text-white text-center p-4">{lyrics}</p> */}
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <YoutubePlayer
+          videoId={videoId}
+          opts={{ height: "250", width: "250", playerVars: { autoplay: 1 } }}
+          onReady={onReady}
+        />
+      </Box>
     </Box>
   );
 
@@ -51,10 +60,11 @@ export default function TemporaryDrawer({
             backgroundColor: "rgb(0, 0, 0)", // change to any color
           },
         }}
+        keepMounted
         open={open}
-        onClose={onClose}
+        onClose={onClose} // <- call Canvas handler
       >
-        <Box sx={{ width }} role="presentation" onClick={onClose}>
+        <Box sx={{ width }} role="presentation">
           {DrawerList(primaryItems)}
         </Box>
       </Drawer>
