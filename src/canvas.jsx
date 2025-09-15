@@ -81,7 +81,7 @@ const Canvas = () => {
           setDrawerOpen(false); // close the drawer
         }}
         primaryItems={primaryItems}
-        width={300}
+        width={750}
         lyrics={lyrics}
         videoId={videoId}
         onReady={onReady}

@@ -1,13 +1,20 @@
 import YouTube from "react-youtube";
 
-const youtubePlayer = ({ videoId, onReady }) => {
+const YoutubePlayer = ({ videoId, onReady, opts }) => {
+  // provide default opts but allow overrides
+  const defaultOpts = {
+    width: "100%",
+    height: "500",
+    playerVars: { autoplay: 1 },
+  };
+
   return (
     <YouTube
       videoId={videoId}
-      opts={{ height: "250", width: "250", playerVars: { autoplay: 1 } }}
+      opts={{ ...defaultOpts, ...opts }} // 👈 merge default with incoming
       onReady={onReady}
     />
   );
 };
 
-export default youtubePlayer;
+export default YoutubePlayer;

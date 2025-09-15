@@ -19,7 +19,7 @@ export default function TemporaryDrawer({
   onReady,
 }) {
   const DrawerList = (items) => (
-    <Box sx={{ width: 300 }} role="presentation">
+    <Box sx={{ width: "100%" }} role="presentation">
       <List>
         {items.map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -42,10 +42,10 @@ export default function TemporaryDrawer({
         ))}
       </List>
       {/* <p className="text-white text-center p-4">{lyrics}</p> */}
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ position: "relative", width: "100%" }}>
         <YoutubePlayer
           videoId={videoId}
-          opts={{ height: "250", width: "250", playerVars: { autoplay: 1 } }}
+          opts={{ playerVars: { autoplay: 1 } }}
           onReady={onReady}
         />
       </Box>
