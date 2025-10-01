@@ -4,7 +4,6 @@ import cors from "cors";
 import { searchYoutubeHandler } from "./controller/searchController.js";
 import { searchLyricsHandler } from "./controller/searchLyrics.js";
 import { both } from "./controller/getSongandLyrics.js";
-import { health } from "./controller/HealthController.js";
 
 dotenv.config();
 
@@ -23,8 +22,6 @@ app.get("/", (req, res) => {
 app.get("/search", searchYoutubeHandler);
 
 app.get("/songwithlyrics", both); // 'both' already calls the pure functions
-
-app.get("/health", health)
 
 app.listen(PORT, () => {
   console.log(`Server started at port: ${PORT}`);
